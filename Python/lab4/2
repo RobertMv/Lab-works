@@ -1,0 +1,7 @@
+def a(n):
+    if (n==0):
+        return(1)
+    else:
+        return(a(n//2) + a(n//3))
+quantity = int(input("Введите количество членов: "))
+print(a(quantity))
