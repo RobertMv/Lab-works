@@ -1,0 +1,13 @@
+from tkinter import *
+ 
+root = Tk()
+c = Canvas(root, width=500, height=500, bg="white")
+c.pack()
+ 
+rect = c.create_rectangle(0, 0, 50, 50, fill='red')
+
+def moveRect (event):
+    c.coords(rect, event.x-25, event.y-25, event.x+25, event.y+25)
+
+c.bind('<Button-1>', moveRect)
+root.mainloop()
