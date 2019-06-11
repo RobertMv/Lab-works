@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Лабораторная 3</title>
+</head>
+
+<body>
+	<p><b>Задание 1. Вывести в первую строку год, число и месяц, а во вторую день недели</b></p>
+	<table>
+		<tr>
+			<td id="yeardaymonth"></td>
+		</tr>
+		<tr>
+			<td id="dayoftheweek"></td>
+		</tr>
+	</table>
+
+	<p><b>Задание 2. Вывести в текстовое поле количество дней до сессии</b></p>
+	<p><input id="session" size="30"></p>
+
+	<p><b>Задание 3. Запрашивать памятную дату по нажатию кнопки и вывести количество минувших дней</b></p>
+	<input type="button" value="Запросить дату" onclick="days();">
+	<p><input id="passeddaysresult"></p>
+
+	<p><b>Задание 4. Найти и вывести сумму последовательности, запрашивать данные двумя диалоговыми окнами, для проверки ввода нельзя использовать parseInt()</b></p>
+	<input type="button" value="Начать и вычислить" onclick="calculate();">
+	<p><input id="result"></p>
+</body>
+
+<script type="text/javascript">
+	var dayoftheweek = document.getElementById("dayoftheweek");
+	var yeardaymonth = document.getElementById("yeardaymonth");
+	var session = document.getElementById("session");
+	var passeddaysresult = document.getElementById("passeddaysresult");
+	var result = document.getElementById("result");
+	
+	var date = new Date();
+
+	var year = date.getFullYear();
+	var day = date.getDate();
+	var monthNum = date.getMonth();
+	var dayOWNum = date.getDay();
+
+	var months = [
+		 'Январь',
+		 'Февраль',
+		 'Март',
+		 'Апрель',
+		 'Май',
+		 'Июнь',
+		 'Июль',
+		 'Август',
+		 'Сентябрь',
+		 'Октябрь',
+		 'Ноябрь',
+		 'Декабрь'
+		];
+
+	var daysOW = ['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
+
+	yeardaymonth.innerHTML += year + ' ' + day + ' '+ months[monthNum];
+	dayoftheweek.innerHTML += daysOW[dayOWNum];
+
+	var today = new Date();
+	var nextDate = new Date("June 16, 2019");
+	var msPerDay = 24*60*60*1000;
+	var daysLeft = Math.round((nextDate.getTime() - today.getTime()) / msPerDay);
+
+	session.value += "До сессии осталось: " + daysLeft + " дней";
+
+	var days = function(){
+		var myDate = prompt("Введите год месяц день");
+		myDate = Date.parse(myDate);
+		var date = new Date();
+		var msPerDay = 24*60*60*1000;
+		var passedDays = Math.round((date.getTime() - myDate) / msPerDay);
+		passeddaysresult.value += "Прошло " + passedDays + " дней";
+	}
+
+	var calculate = function(){
+		var i, sum = 0.0;
+		var startNumber = prompt("Введите номер первого члена");
+		var quantity = prompt("Введите количество членов");
+
+		if((startNumber % 1 == 0) && (quantity % 1 == 0)){
+			var end = parseInt(startNumber) + parseInt(quantity);
+			
+			for(i = parseInt(startNumber); i <= end; i++){
+				sum = sum + Math.pow((-1), (i-1)) * Math.pow((i + 4), 2);
+			}
+			result.value = sum;
+
+		} else{
+			alert("Ошибка!!! Вводите только целые числа");
+		}
+	}
+
+</script>
+</html>
