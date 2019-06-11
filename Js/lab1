@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Лабораторная 1</title>
+</head>
+
+<style type="text/css">
+	table {
+		border-collapse: collapse;
+	}
+	td {
+		width: 50px;
+		height: 50px;
+	}
+	.r1 {
+		background-color: gray;
+	}
+	.r2 {
+		background-color: darkblue;
+	}
+</style>
+
+<body>
+	<p>Задача 20. Дано натуральное число N. Поменять порядок следования цифр в этом числе на
+обратный или сообщить, что это невозможно в силу переполнения.</p>
+	<table border="solid">
+		<tr>
+			<td>Введите сюда число</td>
+			<td>
+				<input type="number" id="number">
+				<input type="button" value="Вычислить" onclick="calculate();">
+			</td>
+		</tr>
+		<tr>
+			<td>Ответ:</td><td><p id="result"></td>
+		</tr>
+</body>
+
+<script type="text/javascript">
+	var surname = prompt("Введите вашу фамилию", "Сюда");
+	var sex = prompt("Введите ваш пол", "Сюда");
+	var age = prompt("Введите ваш возраст", "Сюда");
+	var result = confirm("Ваши данные верны?\nФамилия: " + (surname) + "\nПол: " + (sex) + "\nВозраст: " + (age));
+	if(result == true){
+		alert("Поздравляем!!!");
+	} else{
+		alert("Ошибка!!!");
+	}
+
+	var x = prompt("Введите х", "5");
+	var y = prompt("Введите у", "2");
+	var operationSign = prompt("Введите операцию", "+");
+	if(y == "0" || (operationSign != "+" && operationSign != "*" && operationSign != "-" && operationSign != "/")){
+		alert("Ошибка!");
+	} else{
+		switch(operationSign){
+			case "+":
+			alert("x + y = " + (parseFloat(x) + parseFloat(y)));
+			break;
+			case "-":
+			alert("x - y = " + (parseFloat(x) - parseFloat(y)));
+			break;
+			case "*":
+			alert("x * y = " + (parseFloat(x) * parseFloat(y)));
+			break;
+			case "/":
+			alert("x / y = " + (parseFloat(x) / parseFloat(y)));
+			break;
+		}
+	}
+
+	var str, borderSell, n = 10, i, j;
+		document.write("<table>");
+		borderSell = 8;
+		for(i = 0; i < n; i++){
+			document.write("<tr>");
+			for(j = 0; j < n; j++){
+				if((borderSell - i) > j){
+					str = "class='r1'";
+				}
+				else {
+					str = "class='r2'";
+				}
+				document.write("<td " + str + "></td>");
+			}
+			document.write("</tr>");
+		}
+		document.write("<td></td>");
+		document.write("</table>");
+		
+
+		var str, sel, n = 10, i, j;
+		document.write("<table>");
+		for (i = 0; i < n; i++) {
+			document.write("<tr>");
+				for (j = 0; j < n; j++) {
+					sel = (i + j + 2)%4;
+					if (sel == 0) {
+						str = "class='r1'";
+					} else {
+						str = "class='r2'";
+					}
+					document.write("<td " + str + "></td>");
+				}
+			document.write("</tr>");
+		}
+		document.write("</table>");
+
+	var calculate = function(){
+		var number = document.getElementById("number").value;
+		var result = document.getElementById("result");
+		var r = 0;
+		var n = parseInt(number);
+		if(n > 999999999){
+			alert("Ошибка!!! Переполнение!!!");
+		}
+		while(n != 0){
+			r = r * 10 + (n % 10);
+			n = parseInt(n / 10); 
+		}
+		result.innerHTML = r;
+	}
+</script>
+</html>
