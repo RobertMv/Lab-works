@@ -1,7 +1,40 @@
+# функция исходя из условия задачи, возвращает 1 если n=0
+#иначе считает по формуле
 def a(n):
     if (n==0):
         return(1)
     else:
         return(a(n//2) + a(n//3))
+#----------------------------------------------------------
+
+#вызов метода и получение ответа рекурсивным путем    
 quantity = int(input("Введите количество членов: "))
-print(a(quantity))
+print('Ответ, полученный через рекурсию: ', a(quantity))
+
+
+#подсчет "в лоб"
+k1 = quantity//2 #3
+k2 = quantity//3 #2
+
+a = []
+a.append(1)
+
+for i in range(1, quantity+1):
+    #print('nomer zikla', i)
+    #j = j + 1 #1
+    b = a[i//2] + a[i//3] #a[0] + a[0] ... = 2
+    #print(b)
+    a.append(b)
+    #print('in the cycle', a)
+
+    if k1 == i:
+        k1result = b
+       # print('k1result', k1result)
+
+    elif k2 == i:
+        k2result = b
+        #print('k2result', k2result)
+         
+
+#print('in the end, list ', a, 'the last element ', b)
+print('Ответ, полученный методом итерации: ', b)
