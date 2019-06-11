@@ -1,0 +1,9 @@
+import math
+x = int(input("Введите трехзначное число "))
+x1 = math.trunc(x / 100) #3
+x2 = math.fmod(x, 100) #84
+x3 = math.trunc(math.fmod(x2, 10)) #4
+x2 = math.trunc(x2 / 10) #84/10=8
+s = x1 + x2 + x3
+p = x1 * x2 * x3
+print ("Сумма цифр = ", s, "\n", "Произведение цифр = ", p)
