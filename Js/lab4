@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+ <head><meta charset="UTF-8"><title></title></head>
+ <body>
+ 	<p>?x0=300&y0=300&k=10&p=1</p>
+ </body>
+<script type="text/javascript">
+/* параметры из URI:
+ ../lab4js/test1.html?x0=300&y0=300 */
+	var x0 = Number(getUrlParameter("x0"));
+	var y0 = Number(getUrlParameter("y0"));
+	var k = Number(getUrlParameter("k"));
+	var p = Number(getUrlParameter("p"));
+	graph(x0,y0,100,200,400);
+	line(190, 410,y0);
+	linev(x0,70,320);
+	linegrid(190,410,90,320);
+	
+	function graph(mx,my,y,x1,x2) {
+		 var xstr = "";
+		 var xstr0 = "<img src='pixel.png' width=2 height=2 style='position:absolute;";
+		 var x = -10;
+		 while (x <= 10.1) {
+		 	if((my - Math.pow(Math.tan(x), 2)) >= y && (mx - k*x) >= x1 && (mx - k*x) <= x2){
+		 		xstr += xstr0 + "margin-top:" + 2*(my - Math.pow(Math.tan(x), 2) + 6) + "px;margin-left:" + 3*(mx - k*x) + "px'>";	
+		 	}
+			 x += 0.002;
+		 }
+		 document.write(xstr);
+	}
+	function linev(x,y1,y2) {
+		 var xstr = "";
+		 var xstr0 = "<div style='position:absolute;";
+		 var y = y1;
+		 while (y <= y2) {
+			 xstr += xstr0 + "margin-top:" + 2*y + "px;margin-left:" + 3*x + "px'>.</div>";
+			 y += 0.5;
+			}
+		 document.write(xstr);
+	}
+	function line(x1,x2,y) {
+		 var xstr = "";
+		 var xstr0 = "<div style='position:absolute;";
+		 var x = x1;
+		 while (x <= x2) {
+			 xstr += xstr0 + "margin-top:" + 2*y + "px;margin-left:" + 3*x + "px'>.</div>";
+			 x += 0.5;
+			}
+		 document.write(xstr);
+	}
+	function linegrid(x1,x2,y1,y2) {
+		 var xstr = "";
+		 var xstr0 = "<div style='position:absolute;";
+		 var x = x1;
+		while (x <= x2) {
+		 	if (x == 210 || x == 240 || x == 270 || x == 330 || x == 360 || x == 390) {
+		 		var xstr = "";
+			 	var y = y1 + 10;
+			 	while (y <= y2 - 10) {
+			 		xstr += xstr0 + "margin-top:" + 2*y + "px;margin-left:" + 3*x + "px'>.</div>";
+			 		y += 0.5;
+			 	}
+			 	document.write(xstr);
+			}
+			 x += 0.5;
+		}
+
+		var ystr = "";
+		 var ystr0 = "<div style='position:absolute;";
+		 var y = y1;
+		while (y <= y2) {
+		 	if (y == 120 || y == 150 || y == 180 || y == 210 || y == 240 || y == 270) {
+		 		var ystr = "";
+			 	var x = x1 + 10;
+			 	while (x <= x2 - 10) {
+			 		ystr += ystr0 + "margin-top:" + 2*y + "px;margin-left:" + 3*x + "px'>.</div>";
+			 		x += 0.5;
+			 	}
+			 	document.write(ystr);
+			}
+			 y += 0.5;
+		}
+	}
+	function getUrlParameter(sParam) {
+	 var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+	 sURLVariables = sPageURL.split('&'), sParameterName, i;
+	 for (i = 0; i < sURLVariables.length; i++) {
+		 sParameterName = sURLVariables[i].split('=');
+		 if (sParameterName[0] === sParam) {
+		 	return sParameterName[1] === undefined ? false : sParameterName[1];
+		 }
+	   }
+	}
+</script>
+</html>
