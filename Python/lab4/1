@@ -1,0 +1,20 @@
+import re #импортируем регулярку
+
+# функция для удаления {} и всего,что между ними
+# скобки не должны быть вложенными друг в друга 
+def delet_between_brackets(line): 
+    changedLine = re.sub(r'\{[^{}]*\}', '', line)
+    return(changedLine)
+
+# открываем первый файл с текстом для чтения,
+#второй файл отркывается для записи
+f = open("in.txt", 'r')
+g = open("out.txt", 'w')
+
+#перебираем построчно из файла с текстом
+#при налиичии {} делаем изменения и записываем во второй файл
+for line in f.readlines():
+    g.write(delet_between_brackets(line))
+
+f.close()
+g.close()
