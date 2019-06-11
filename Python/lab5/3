@@ -1,0 +1,61 @@
+import time
+from time import sleep
+from tkinter import *
+
+tk=Tk()
+c=Canvas(tk, width=150, height=450)
+c.pack()
+
+#функции, просто цвет - ставит цветной кружочек,
+#цветSleep - "засыпает", ставит черный цвет
+def red(a):
+    for i in range(a):
+        redLight = c.create_oval(10, 10, 140, 140, fill="red")
+        tk.update()
+        time.sleep(1)
+        
+def redSleep(a):
+    for i in range(a):
+        redLight = c.create_oval(10, 10, 140, 140, fill="black")
+        tk.update()
+        time.sleep(1)
+        
+def orange(a):
+    for i in range(a):
+        orangeLight=c.create_oval(10, 160, 140, 290, fill="orange")
+        tk.update()
+        time.sleep(1)
+        
+def orangeSleep(a):
+    for i in range(a):
+        orangeLight=c.create_oval(10, 160, 140, 290, fill="black")
+        tk.update()
+        time.sleep(1)
+        
+def green(a):
+    for i in range(a):
+        greenLight=c.create_oval(10, 310, 140, 440, fill="green")
+        tk.update()
+        time.sleep(1)
+        
+def greenSleep(a):
+    for i in range(a):
+        greenLight=c.create_oval(10, 310, 140, 440, fill="black")
+        tk.update()
+        time.sleep(1)
+
+
+while True:
+    #создаю все кужочки черного цвета
+    redCircle = c.create_oval(10, 10, 140, 140, fill="black")
+    orangeCircle = c.create_oval(10, 160, 140, 290, fill="black")
+    greenCircle = c.create_oval(10, 310, 140, 440, fill="black")
+
+    red(3)
+    redSleep(1)
+    orange(3)
+    orangeSleep(1)
+    green(3)
+    greenSleep(1)
+
+tk.mainloop()
