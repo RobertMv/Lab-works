@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Лабораторная 6</title>
+</head>
+<body>
+</body>
+	<script type="text/javascript">
+		class Book {
+			constructor(name, pages, price){
+				if(arguments.length != 3)
+					throw new SyntaxError("Аргументов для создания объекта должно быть три!!!");
+				this.name = name;
+				this.pages = pages;
+				this.price = price;
+			}
+
+			averagePriceOfOnePage(){
+				return this.price/this.pages;
+			}
+			
+			increasePriceOrNot(){
+				if(this.name.substring(0, 16) == "Программирование");
+					this.price = this.price * 2;
+				return this.price;
+			}
+		}
+
+		class Library extends Book {
+			constructor(name, pages, price, discount){
+				super(name, pages, price);
+				if(arguments.length != 4)
+					throw new SyntaxError("Должно быть строго четыре аргумента");
+				this.discount = discount;
+			}
+
+			priceWithDiscount(){
+				return this.price*((100 - this.discount)/100);
+			}
+		}
+
+		var nameB = prompt("Введите ниже название книги: ", "Программирование на С");
+		var pagesN = prompt("Введите ниже количество страниц в книге: ", "450");
+		var priceQ = prompt("Введите ниже цену книги: ", "3500");
+		var disc = prompt("Введите ниже скидку в процентах: ", "30");
+
+		myBook = new Library(nameB, pagesN, priceQ, disc);
+		
+		alert("Цена за страницу: " + myBook.averagePriceOfOnePage().toFixed(2) + " рублей" + "\n"  + "Новая цена: " + myBook.increasePriceOrNot().toFixed(2) + " рублей" + "\n" + "Цена с учетом скидки: " + myBook.priceWithDiscount().toFixed(2) + " рублей");
+			
+	</script>
+</html>
