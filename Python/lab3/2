@@ -1,0 +1,43 @@
+import random
+n = int(input("Введите количество чисел: "))
+a = int(input("Введите начало ряда: "))
+b = int(input("Введите конец: "))
+list = [] #создал пустой список
+#заполняю его случайнми числами от a до b
+for i in range(n):
+    list.append(random.randint(a,b))
+    
+print(list)
+
+dlinaBloka = 0 #длина группы положительных чисел
+iStart = 0 # начало этой группы
+i = 0
+while i<n:
+    if list[i]>0 and (i==1 or list[i-1]<=0):
+        j = i # начало группы
+        k = 0 # счетчик длины ггруппы
+        
+        while (j<n) and (list[j]>0):
+            k = k+1
+            j = j+1
+            
+        if k > dlinaBloka:
+            dlinaBloka = k #макс длина группы
+            iStart = i
+        i = i+k
+        
+    else:
+        i = i+1
+
+#print("Начало группы: ", iStart, "Длина группы: ", dlinaBloka)
+iStop = iStart + dlinaBloka
+L = []
+for i in range(iStart, iStop, 1):
+    L.append(list[i])
+#print("Список положительных чисел: ", L)
+
+list.extend(L)
+#print("Список после перемещения группы в конец: ", list)
+
+del list[iStart:iStop:1]
+print("Список после переписывания группы в конец: ", list)
