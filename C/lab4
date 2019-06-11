@@ -1,0 +1,121 @@
+#include<stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+FILE *ff_out, *ff_in;
+
+void task_252_a(int f_in, int f_out);
+
+int main(int argc, char **argv){
+    int continueOrNot, f_in, f_out;
+
+    do{
+        printf("Input from console(0) or file(1)? ");
+        scanf("%d", &f_in);
+
+        printf("Output to console(0) or file(1)? ");
+        scanf("%d", &f_out);
+
+        task_252_a(f_in, f_out);
+
+        if(f_in == 0){
+            printf("\nContinue or not? (Yes - 1, No - 0) ");
+            scanf("%d", &continueOrNot);
+        }
+    } while(continueOrNot == 1);
+
+}
+
+void task_252_a(int f_in, int f_out){
+    int i, plus = 0, star = 0;
+    char *str_in = "in.txt";
+    char *str_out = "out.txt";
+    char ch;
+
+    char *stroka = (char*)malloc(1 * sizeof(char));
+    i = 0;
+
+    if(f_in == 0){
+        printf("Enter string: \n");
+        ch = getche();
+        while(ch!=13){
+            stroka = realloc(stroka, i+1);
+            stroka[i] = ch;
+            if(stroka[i] == '+') plus++;
+            if(stroka[i] == '*') star++;
+            i++;
+            ch = getche();
+        }
+    } else if(f_in == 1){
+
+        printf("\nEnter path to input file or press \'enter\' to set default path: ");
+        char *str_in_path = (char *)malloc(250 * sizeof(char));
+        int i = 0;
+        while(1){
+            str_in_path[i] = getche();
+            if(str_in_path[i] == 13){
+                printf("\n");
+                break;
+            } i++;
+        }
+        str_in_path[i] = '\0';
+
+        if(i < 4){
+            //use default path
+            ff_in = fopen(str_in, "r");
+
+            while((ch = fgetc(ff_in)) != EOF){
+                stroka = realloc(stroka, i+1);
+                stroka[i] = ch;
+                if(stroka[i] == '+') plus++;
+                if(stroka[i] == '*') star++;
+                i++;
+                ch = getche();
+            }
+            fclose(ff_in);
+        } else {
+            ff_in = fopen(str_in_path, "r");
+
+            while((ch = fgetc(ff_in)) != EOF){
+                stroka = realloc(stroka, i+1);
+                stroka[i] = ch;
+                if(stroka[i] == '+') plus++;
+                if(stroka[i] == '*') star++;
+                i++;
+                ch = getche();
+            }
+            free(str_in_path);
+            fclose(ff_in);
+        }
+    }
+
+    if(f_out == 0){
+        printf("\nNumber of pluses: %d\nNumber of stars: %d", plus, star);
+    }
+    if(f_out == 1){
+
+        printf("\nEnter path to output file or press \'enter\' to set default path: ");
+        char *str_out_path = (char *)malloc(250 * sizeof(char));
+        int i = 0;
+        while(1){
+            str_out_path[i] = getche();
+            if(str_out_path[i] == 13){
+                printf("\n");
+                break;
+            } i++;
+        }
+        str_out_path[i] = '\0';
+
+        if(i < 4){
+            //use default path
+            ff_out = fopen(str_out, "w");
+            fprintf(ff_out, "Number of pluses: %d\nNumber of stars: %d", plus, star);
+            fclose(ff_out);
+        } else {
+            ff_out = fopen(str_out_path, "w");
+            fprintf(ff_out, "Number of pluses: %d\nNumber of stars: %d", plus, star);
+            fclose(ff_out);
+            free(str_out_path);
+        }
+    }
+}
