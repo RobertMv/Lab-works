@@ -1,0 +1,22 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+unsigned long long int task_10(unsigned long long int n, unsigned long long int k);
+unsigned int n, k, result, continueOrNot;
+
+int main(int argc, char **argv)
+{
+    k = argc;
+    n = atoi(argv[1]);
+
+    task_10(n, k);
+    return 0;
+}
+
+unsigned long long int task_10(unsigned long long int n, unsigned long long int k){
+    unsigned long long int odd_bits = n & 0x55555555;
+    unsigned long long int even_bits = n & 0xAAAAAAAA;
+
+    result = ((even_bits << k) | odd_bits);
+    return result;
+}
