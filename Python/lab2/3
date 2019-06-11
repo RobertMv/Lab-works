@@ -1,0 +1,9 @@
+string = input("Введите 6 чисел через запятую: ")
+string = string.split(",")
+print("a) ", string[3])
+print("б) ", string[::-1])
+
+s = 0
+for i in range(0, len(string)):
+    s = s + int(string[i])
+print("в) Сумма: ", s, " Среднее арифметическое: ", s/len(string))
