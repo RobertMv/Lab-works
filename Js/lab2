@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Лабораторная 2</title>
+</head>
+
+<body>
+	<p>Задача 21. Дано натуральное число N. Определить количество цифр в цифровой записи данного
+числа, которые имеют наименьшее значение.</p>
+	<table border="solid">
+		<tr>
+			<td>Введите сюда число</td>
+			<td>
+				<input type="number" id="number">
+				<input type="button" value="Вычислить" onclick="calculate();">
+			</td>
+		</tr>
+		<tr>
+			<td>Ответ:</td><td><p id="result"></td>
+		</tr>
+</body>
+
+<script type="text/javascript">
+	var calculate = function(){
+		var number = document.getElementById("number").value;
+		var result = document.getElementById("result");
+		var r = 0;
+		var n = parseInt(number);
+		var min, i;
+
+
+		len = number.length;
+		min = number[0];
+		
+		for(i = 0; i < len; i++){
+			if(number[i] < min){
+				min = number[i];
+				r = 0;
+			}
+			if(number[i] == min)
+				r++;
+		}
+		
+		result.innerHTML = r;
+	}
+</script>
+</html>
