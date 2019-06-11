@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <math.h>
+
+FILE *ff_in, *ff_out;
+char *str_in = "in.txt";
+char *str_out = "out.txt";
+int f_in = 0, f_out = 0;
+int n, m;
+void  task_212(float x[], float y[]);
+
+int main()
+{
+    printf("Task 212:\n\n");
+	int continueOrNot = 1;
+	do { /*Выясняем откуда будут поступать входные данные и куда выходные*/
+		printf("Input from console(0) or file(1)? ");
+		scanf("%d", &f_in);
+		printf("Output to console(0) or file(1)? ");
+		scanf("%d", &f_out);
+
+		/*ввод*/
+		if(f_in == 0){/* если вход с консоли, то просим ввести число*/
+        printf("Enter n and m (2 < n,m < 20, n,m - integers): ");
+		scanf("%d %d", &n, &m);
+    } else if(f_in == 1){/* если с файла, то открываем и считываем*/
+        ff_in = fopen(str_in, "r");
+        fscanf(ff_in, "%d %d", &n, &m);
+        fclose(ff_in);
+    }
+		float x[20] = {0.0, 1.0};
+		float y[20] = {0.0, 1.0};
+		task_212(x,y);/*вызываем метод решения задачки 212*/
+
+		/*вывод*/
+		if(f_out == 0){/*либо в консоль*/
+	    printf("\nx[n]: %f \nx[m]: %f \n", x[n], x[m]);
+    }else if(f_out == 1){/*либо в файл*/
+        ff_out = fopen(str_out, "w+");
+        fprintf(ff_out, "\nx[n]: %f \nx[m]: %f \n", x[n], x[m]);
+        fclose(ff_out);
+    }
+
+		if (f_in == 0) {/*проверка на продолжение ввода или нет*/
+			printf("\nContinue?(yes - 1, no - 0) ");
+			scanf("%d", &continueOrNot);
+		} else if(f_in == 1){
+		    continueOrNot = 0;
+		}
+	} while (continueOrNot == 1);
+}
+
+void task_212(float x[], float y[]){
+
+	for(int i = 2; i<18; i++){
+        x[i] = x[i-1] + y[i-1]/pow(i,2);
+        y[i] = y[i-1] + x[i-1]/i;
+    }
+}
