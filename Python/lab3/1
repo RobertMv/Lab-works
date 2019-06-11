@@ -1,0 +1,29 @@
+a = input("Введите строку оканчивающуюся точкой: ")
+
+while a[-1] !=".":
+    a = input("Строка должна заканчиваться точкой, введите ее еще раз: ")
+
+a = a[0:-1] # удаляю точку-последний символ строки
+
+b = a.split( ) # режу строку по пробелу
+
+print("a) длина строки: ", len(a))
+print("б) количество слов в строке: ", len(b))
+
+maxlen = 0
+for i in b:
+    if len (i) >  maxlen:
+        maxlen = len(i)
+print("в) Самое длинное слово: ", maxlen)
+
+minlen = len(a)
+for i in b:
+    if len(i)< minlen:
+        minlen = len(i)
+print("   Длинна самого короткого слова: ", minlen)
+
+for char in '*':            # убираю все * и дублирую каждый символ
+    a = a.replace("*", "")
+
+for i in a:
+    print (i*2, end='')
