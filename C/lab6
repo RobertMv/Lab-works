@@ -1,0 +1,267 @@
+#include <stdio.h>
+#include <malloc.h>
+#include <stdlib.h>
+#include <Windows.h>
+
+
+//10-->145; ГФ3:1, ГФ2:2, СПД:2, СЭС:3, ГФ1:5
+//Сброс значений всех элементов
+//Печать в отсортированном виде
+//Двунаправленный список
+//Название ценной бумаги; Количество сделок; Объём торгов
+//Удалить заданный элемент. Элемент задан значением поля; удаляется первый элемент
+
+
+FILE *f_out;
+char *str_out = "out.txt";
+
+struct data{
+    char* name;
+    int deals;
+    int volume;
+};
+
+struct node{
+    struct data* value;
+    struct node* prev;
+    struct node* next;
+};
+
+struct list{
+    size_t size;
+    struct node* head;
+    struct node* tail;
+};
+
+//Input from keyboard
+char* read(){
+
+    int i = 0, j = 10;
+    char* ch = (char*)malloc(j*sizeof(char));
+    while(1){
+        if(j == i){
+            j = j+10;
+            ch = (char*)realloc(ch, j*sizeof(char));
+        }
+        ch[i] = getche();
+        if(ch[i] == 13 || ch[i] == 10){
+            ch[i] = '\0';
+            break;
+        }
+
+        i++;
+    }
+    return ch;
+}
+
+struct list* createList(){
+    struct list* tmp = (struct list*)malloc(2*sizeof(struct list));
+    tmp->size = 0;
+    tmp->head = tmp->tail = NULL;
+    return tmp;
+}
+
+int getSize(struct list* tmp){
+    return tmp->size;
+}
+
+
+void addBack(struct data* el, struct list* lst){
+    struct node* cNode = (struct node*)malloc(sizeof(struct node));
+    cNode->next = NULL;
+    cNode->prev = lst->tail;
+    cNode->value = el;
+    if(lst->tail){
+        lst->tail->next = cNode;
+    }
+    if(lst->head == NULL){
+        lst->head = cNode;
+    }
+    lst->tail = cNode;
+    lst->size++;
+}
+
+
+void input(struct list* lst){
+    struct data* input = malloc(sizeof(struct data));
+
+    printf("\nEnter name of paper: ");
+    input->name = read();
+
+    printf("\nEnter deals quantity: ");
+    scanf("%d", &input->deals);
+
+    printf("Enter trading volume: ");
+    scanf("%d", &input->volume);
+
+    addBack(input, lst);
+
+}
+
+void output(struct list* lst){
+    sortList(lst);
+    struct node* tmp = lst->head;
+    struct data* out = tmp->value;
+    size_t n = getSize(lst);
+    size_t i = 0;
+    do{
+        printf("\nName of paper: %s", out->name);
+        printf("\nDeals quantity: %d", out->deals);
+        printf("\nTrading volume: %d\n", out->volume);
+        i++;
+        if(i<n){
+            tmp = tmp->next;
+            out = tmp->value;
+        }
+    }while(i<n);
+    //write(lst);
+}
+
+void write(struct list* lst){
+    if(getSize(lst) != 0){
+        f_out = fopen(str_out, "w+");
+        sortList(lst);
+        struct node* tmp = lst->head;
+        struct data* out = tmp->value;
+        size_t n = getSize(lst);
+        size_t i = 0;
+        do{
+            fprintf(f_out, "%d Name of paper: %s\n Deals quantity:%d\n Trading volume: %d\n", i+1, out->name, out->deals, out->volume, '\n');
+            i++;
+            if(i<n){
+                tmp = tmp->next;
+                out = tmp->value;
+            }
+        }while(i<n);
+        fclose(f_out);
+    }else{
+        printf("\n---------Error---------\n");
+    }
+}
+
+void zeroList(struct list* lst){
+    if(getSize(lst) != 0){
+        size_t n = getSize(lst);
+        size_t i = 0;
+        struct node* tmp = lst->head;
+        struct data* out = tmp->value;
+
+        do{
+            out->name = realloc(out->name, 4*sizeof(char));
+            out->deals = realloc(out->deals, 4*sizeof(char));
+            out->volume = realloc(out->volume, 4*sizeof(char));
+
+            out->name = NULL;
+            out->deals = NULL;
+            out->volume = NULL;
+            i++;
+            write(lst);
+            if(i<n){
+                tmp = tmp->next;
+                out = tmp->value;
+            }
+        }while(i<n);
+
+    }else{
+        printf("\nYou do not have any items\n");
+    }
+}
+
+void deleteElement(struct list* lst){
+    if(getSize(lst) != 0){
+        char *nameOfPaper;
+        printf("\nEnter name of paper: ");
+        nameOfPaper = read();
+        printf("\n");
+
+        size_t n = getSize(lst);
+        size_t i = 0;
+        struct node* tmp = lst->head;
+        struct data* newData = tmp->value;
+
+        do{
+            if(strcmp(newData->name, nameOfPaper) == 0){
+                //printf("element was found");
+                struct node *prev, *next;
+                prev = tmp->prev;
+                next = tmp->next;
+                if(prev != NULL)
+                    prev->next = tmp->next;
+                if(next != NULL)
+                    next->prev = tmp->prev;
+                free(tmp);
+                lst->size--;
+                printf("\nElement was deleted\n");
+                break;
+            }
+            i++;
+            if(i<n){
+                tmp = tmp->next;
+                newData = tmp->value;
+            }
+        }while(i<n);
+    } else{
+        printf("List is empty ");
+    }
+}
+void swap(struct node *firstNode, struct node *secondNode){
+    struct data *tmp = firstNode->value;
+    firstNode->value = secondNode->value;
+    secondNode->value = tmp;
+}
+
+void sortList(struct list *lst){
+    if(lst->size != 0){
+        int i, j;
+        for(i = 0; i < lst->size-1; i++){
+            struct node *current = lst->head;
+            struct node *next = current->next;
+            for(j = 0; j < lst->size-1; j++){
+                if(strcmp(current->value->name, next->value->name) > 0){
+                    swap(current, next);
+                }
+                current = current->next;
+                next = next->next;
+            }
+        }
+    }
+}
+
+int main(void){
+    struct list* newList;
+    newList = createList();
+
+    int whatToDo;
+	do{
+	    // выводим меню
+		printf("\n\t\tWhat to do? "
+			"\n\t1. Add element - (1)\n"
+			"\t2. Print everything - (2)\n"
+			"\t3. Delete element - (3)\n"
+			"\t4. Delete everything - (4)\n"
+			"\t5. Exit - (5)\n"
+		);
+		scanf("%d", &whatToDo);
+		// запускаем функции
+		switch (whatToDo) {
+		case 1:
+            input(newList); //работает
+			break;
+		case 2:
+            output(newList); //надо сделать сортировку
+			break;
+		case 3:
+            deleteElement(newList); //сделал, работает все без падений
+			break;
+		case 4:
+            zeroList(newList); // работает
+			break;
+		case 5:
+			break;
+		default:
+			printf("\nYou can enter only these numbers 1-5!\n");
+		}
+	} while(whatToDo != 5);
+
+    return 0;
+}
